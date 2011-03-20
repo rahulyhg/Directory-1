@@ -1,0 +1,25 @@
+body{
+		background-image: url("../images/ml0022.jpg");
+		background-repeat: no-repeat;
+		background-position: center;
+		background-position: top;
+		background-attachment: fixed;		
+}
+#AddOrSearch{
+	
+}
+#SearchResults{
+	
+}
+#Footer{
+	
+}
+table.inputTable{
+	/*background-color:lightgrey;*/
+}
+table.resultTable{
+	background-color:lightgrey;
+}
+td.hidden{
+	style="display:none";
+}

@@ -1,0 +1,161 @@
+<%@ page import="com.directoryApp.model.DirectoryEntry"%>
+<%@ page import="java.util.*"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style type="text/css">
+	<!--
+	#body{
+		background-image: url("http://localhost:8080/DIRECTORY/images/ml0022.jpg");
+		background-repeat: no-repeat;
+		background-position: center;
+		background-position: top;		
+	}
+	#AddOrSearch{
+		
+	}
+	#SearchResults{
+		
+	}
+	#Footer{
+		
+	}
+	-->
+</style>
+<script type="text/javascript">
+	function selectAction(){
+	
+		if(document.pressed=="ADD CONTACT"){
+			//alert("inside ADD CONTACT()");
+			//alert(document.addOrSearchForm);
+			document.addOrSearchForm.action="/DIRECTORY/addContact.do";
+			document.addOrSearchForm.submit();
+		}
+		else if(document.pressed=="SEARCH CONTACT"){
+			document.addOrSearchForm.action="/DIRECTORY/searchContact.do";
+			//alert("inside SEARCH CONTACT()");
+			document.addOrSearchForm.submit();
+		}
+		
+		//alert("action set to : "+document.addOrSearchForm.action);
+		
+		return true;
+	}	
+	
+	function setResultsVisible(isResultPage){
+		
+		if(isResultPage == "true")
+			document.getElementById("SearchResults").style.display = 'block';
+		else
+			document.getElementById("SearchResults").style.display = 'none';
+		
+	}
+</script>
+<title>Add Or Search Contact</title>
+</head>
+<% 	String isResultPage = null;
+	if(request.getAttribute("resultPage") != null){
+		isResultPage = "true"; 
+	}
+%>
+<body id="body" onload="setResultsVisible('<%= isResultPage %>')">
+	<div id="AddOrSearch" align="center">	
+		<form name="addOrSearchForm" onsubmit="return selectAction()" action="">
+			<table>
+				<tr>
+					<td align="right"><label >Name :</label></td>
+					<td><input type="text" name="name"/></td>
+				</tr>
+				<tr>
+					<td align="right"><label >Company :</label></td>
+					<td><input type="text" name="company"/></td>
+				</tr>
+				<tr>
+					<td align="right"><label >Cell Number :</label></td>
+					<td><input type="text" name="cellNumber"/></td>
+				</tr>
+				<tr>
+					<td align="right"><label >Landline Number :</label></td>
+					<td><input type="text" name="landlineNumber"/></td>
+				</tr>
+				<tr>
+					<td align="right"><label >Email :</label></td>
+					<td><input type="text" name="email"/></td>
+				</tr>
+				<tr>
+					<td align="right"><label >Address :</label></td>
+					<td><input type="text" height="5" name="address"/></td>
+				</tr>
+				<tr>
+					<td><input type="submit" name="operation" value="ADD CONTACT" onclick="document.pressed=this.value"/></td>
+					<td><input type="submit" name="operation" value="SEARCH CONTACT" onclick="document.pressed=this.value"/></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	
+	<!-- Write code to check the "isSaved" attribute in which case a javascript message for successfully saved is to be displayed -->
+	<% 	if(request.getAttribute("isSaved") != null){
+			//out.write((request.getAttribute("isSaved")).toString());
+		Boolean isSaved = (Boolean)(request.getAttribute("isSaved")); 
+		if( isSaved == true){ 
+			out.write("Successfully Saved !!");
+		}
+	}%>
+	<div id="SearchResults" align="center">
+		<!-- Write code to check for attribute "resultPage" and display the results accordingly -->
+		<% if(request.getAttribute("resultPage") != null){ 
+			out.write("Successfully Searched !!"); %>
+		<table border="1">
+			<tr>
+				<td align="center"><b>Name</b></td>
+				<td align="center"><b>Company</b></td>
+				<td align="center"><b>Cell Number</b></td>
+				<td align="center"><b>Landline Number</b></td>
+				<td align="center"><b>Email</b></td>
+				<td align="center"><b>Address</b></td>
+			</tr>
+		<%}%>
+		<%if(request.getAttribute("ResultList") != null){%>
+			<%for(DirectoryEntry entry : (List<DirectoryEntry>)request.getAttribute("ResultList")){%>
+			<tr>
+				<td><%if(entry.getName()!=null)
+								out.write(entry.getName()); 
+							else 
+								out.write(""); %></td>
+				<td><%if(entry.getCompany()!=null)
+								out.write(entry.getCompany());
+							else
+								out.write(""); %></td>
+				<td><%if(entry.getCellNumber()!=null)
+								out.write(entry.getCellNumber());
+							else
+								out.write(""); %></td>
+				<td><%if(entry.getLandlineNumber()!=null)
+								out.write(entry.getLandlineNumber());
+							else
+								out.write(""); %></td>
+				<td><%if(entry.getEmail()!=null)
+								out.write(entry.getEmail());
+							else
+								out.write(""); %></td>
+				<td><%if(entry.getAddress()!=null)
+								out.write(entry.getAddress());
+							else
+								out.write(""); %></td>
+			</tr>			
+		<%} %>
+		<%} %>
+		</table>
+	</div>
+	<div id="Footer" align="center">
+		<br>
+		Application developed by : <b><c:out value='${initParam.admin1 }'/></b> and <b><c:out value='${initParam.admin2 }'/></b> 
+	</div>	
+</body>
+
+</html>
