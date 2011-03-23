@@ -60,7 +60,6 @@
 			<br>
 			<table border="1" class="resultTable">
 				<tr>
-					<td class="hidden">Contact ID</td>
 					<td align="center"><b>Name</b></td>
 					<td align="center"><b>Company</b></td>
 					<td align="center"><b>Cell Number</b></td>
@@ -69,11 +68,10 @@
 					<td align="center"><b>Address</b></td>
 					<td align="center"><b>Details</b></td>
 				</tr>
+			<c:set var="rowNumber" value="${0}"></c:set>
 			<c:forEach var="entry" items="${ResultList }">
+				<c:set var="rowNumber" value="${rowNumber+1}"></c:set>
 				<tr>
-					<td class="hidden">
-						<input id="id" type="hidden" value="${entry.id }"/>
-					</td>
 					<td>
 						<c:if test="${entry.name != null }">${entry.name }</c:if>
 						<c:if test="${entry.name == null }"></c:if>	
@@ -99,7 +97,7 @@
 						<c:if test="${entry.address == null }"></c:if>
 					</td>
 					<td>
-						<center><input type="image" src="images/addSymbol.png" width="25" height="25" onclick="showInDetail();"/></center>
+						<center><input type="image" src="images/addSymbol.png" width="25" height="25" onclick="showInDetail(${rowNumber});"/></center>
 					</td>
 				</tr>
 			</c:forEach>

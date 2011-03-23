@@ -2,6 +2,7 @@ package com.directoryApp.servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -77,6 +78,13 @@ public class SearchContactServlet extends HttpServlet {
 		
 		//store this results list in the request object to be forwarded to the view
 		request.setAttribute("ResultList", results);
+		
+		//TESTING !!
+		//create a dummy list containg serial numbers from 1 till the size of the resultsList
+		List<Integer> rowNumber = new ArrayList<Integer>(results.size());
+		for(int i=1 ; i<= results.size(); i++)
+			rowNumber.add(new Integer(i));
+		request.setAttribute("RowNumberList", rowNumber);
 		
 		// set a particular attribute in the request object so that the AddOrSearch.jsp
 		// can use it to decide to display the hidden results table
